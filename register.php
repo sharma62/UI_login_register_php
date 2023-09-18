@@ -33,10 +33,22 @@ if (isset($_POST['submit'])) {
     // echo " <pre>";
     // print_r($_POST);
     // die(); 
+    // %$status ='';
     $name = $_POST['name'];
     $email = $_POST['email'];
     $phone = $_POST['phone'];
     $password = $_POST['password'];
+    $cnfpassword = $_POST['cnfpassword'];
+
+    //  logic
+       /*
+       if(password === cnfPassowrd  )
+           $finalPass = password
+        else
+            $status = "password not mathced "
+       */
+
+
 // Insert data into table (belongs to database table's col)
   $sql = "INSERT INTO `register` (`name`, `email`, `phone`, `password`) 
             VALUES ('$name', '$email', '$phone', '$password')";
@@ -87,6 +99,7 @@ mysqli_close($conn);
                                 <div class="form-group mb-4">
                                     <label for="password" class="sr-only">Confirm Password</label>
                                     <input type="password" name="Confirm_password" id="password" class="form-control" placeholder="****Confirm Password*******">
+                                    <p>$status</p>
                                 </div>
                                 <input name="submit" id="submit" class="btn btn-block login-btn mb-4" type="submit" value="Register">
 
