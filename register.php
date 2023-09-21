@@ -1,59 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Login </title>
+    <title>Login</title>
     <link href="https://fonts.googleapis.com/css?family=Karla:400,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.8.95/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets2/css/login.css">
-   
 </head>
-
 <body>
-<?php 
-// echo "Welcome <br>";
+    <?php
+    $conn = mysqli_connect('localhost', 'root', '', 'ice');
 
-$conn = mysqli_connect('localhost', 'root', '', 'ice');
-// echo "<pre>";
-// print_r($_POST);
-// die();
-// Check if connection was successful
-if (!$conn) {
-    die("Sorry, we failed to connect: " . mysqli_connect_error());
-} else {
-    echo "Page connected successfully";
-}
-
-// Data insertion processing 
-if (isset($_POST['submit'])) {
-    // echo " <pre>";
-    // print_r($_POST);
-    // die(); 
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-    $password = $_POST['password'];
-// Insert data into table (belongs to database table's col)
-  $sql = "INSERT INTO `register` (`name`, `email`, `phone`, `password`) 
-            VALUES ('$name', '$email', '$phone', '$password')";
-
-    
-    if (mysqli_query($conn, $sql)) {
-        echo "<script> alert('New record inserted')</script>";
+    if (!$conn) {
+        die("Sorry, we failed to connect: " . mysqli_connect_error());
     } else {
-        echo "Error: " . mysqli_error($conn);
+        echo "Page connected successfully";
     }
-}
+    $success_message = '';
+    $error_message = '';
+if (isset($_POST['submit'])) {
+        $name = $_POST['name'];
+        $email = $_POST['email'];
+        $phone = $_POST['phone'];
+        $password = $_POST['password'];
+        $confirm_password = $_POST['confirm_password'];
+                // Check if Password and Confirm Password match
+        if ($password === $confirm_password) {
+            $sql = "INSERT INTO `register` (`name`, `email`, `phone`, `password`) 
+                    VALUES ('$name', '$email', '$phone', '$password')";
+    if (mysqli_query($conn, $sql)) {
+                // Set success message
+                $success_message = 'Record added successfully!';
+            } else {
+                echo "Error: " . mysqli_error($conn);
+            }
+        } else {
+            // Set error message
+            $error_message = 'Password and Confirm Password do not match.';
+        }
+    }
 
-// Close the database connection
-mysqli_close($conn);
-?>
+    mysqli_close($conn);
+    ?>
 
-<!-- *******************connection code end **************************************** -->
     <main class="d-flex align-items-center min-vh-100 py-3 py-md-0">
         <div class="container">
             <div class="card login-card">
@@ -78,19 +70,26 @@ mysqli_close($conn);
                                 </div>
                                 <div class="form-group">
                                     <label for="Phone" class="sr-only">Phone no.</label>
-                                    <input type="number" name="phone" id="Phone" class="form-control" placeholder="Enter  Phone number">
+                                    <input type="number" name="phone" id="Phone" class="form-control" placeholder="Enter Phone number">
                                 </div>
                                 <div class="form-group mb-4">
                                     <label for="password" class="sr-only">Password</label>
                                     <input type="password" name="password" id="password" class="form-control" placeholder="*****Password******">
                                 </div>
                                 <div class="form-group mb-4">
-                                    <label for="password" class="sr-only">Confirm Password</label>
-                                    <input type="password" name="Confirm_password" id="password" class="form-control" placeholder="****Confirm Password*******">
+                                    <label for="confirm_password" class="sr-only">Confirm Password</label>
+                                    <input type="password" name="confirm_password" id="confirm_password" class="form-control" placeholder="****Confirm Password*******">
                                 </div>
                                 <input name="submit" id="submit" class="btn btn-block login-btn mb-4" type="submit" value="Register">
-
                             </form>
+                            <?php
+                            if (!empty($success_message)) {
+                                echo '<div id="alert-success" class="alert alert-success">' . $success_message . '</div>';
+                            }
+                            if (!empty($error_message)) {
+                                echo '<div id="alert-error" class="alert alert-danger">' . $error_message . '</div>';
+                            }
+                            ?>
                             <p class="login-card-footer-text">I have an account? <a href="Login.html" class="text-reset">Login here</a></p>
                             <nav class="login-card-footer-nav">
                                 <a href="#!">Terms of use.</a>
@@ -106,5 +105,4 @@ mysqli_close($conn);
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </body>
-
 </html>

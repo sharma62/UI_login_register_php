@@ -79,3 +79,20 @@ body {
     color: #919aa3; }
 
 /*# sourceMappingURL=login.css.map */
+/* Style for success message */
+#alert-success {
+  background-color: #28a745;
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+/* Style for error message */
+#alert-error {
+  background-color: #dc3545;
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
